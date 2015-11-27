@@ -10,9 +10,9 @@ import sys
 from scipy.interpolate import interp2d,RectBivariateSpline
 
 #--- Pecube model details -----------------------------------------------------#
-region='E'
+region='TORSA'
 resolution='250m'
-pecuberes='500m'
+pecuberes='1km'
 writenumpts=True
 writecsvheader=False
 makeplot=False
@@ -35,9 +35,9 @@ if region=='W':
     zthick=50.0
     catchments=['BH27','BH389','BH398','BH402','BH403','BH404','BH414','BH420','BH435']
     if resolution=='250m':
-        catchfilesin=['BHU_srtmv41_basin_BH27_ID160023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH389_ID110023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH398_ID120023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH402_ID40023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH403_ID50023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH404_ID90023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH414_ID100023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH420_ID80023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH435_ID150023dd_lat_long_elev_csv.csv']
+        catchfilesin=['BH27_merged_250m.csv','BH389_merged_250m.csv','BH398_merged_250m.csv','BH402_merged_250m.csv','BH403_merged_250m.csv','BH404_merged_250m.csv','BH414_merged_250m.csv','BH420_merged_250m.csv','BH435_merged_250m.csv']
     elif resolution=='500m':
-        catchfilesin=['BHU_srtmv41_basin_BH27_ID160046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH389_ID110046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH398_ID120046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH402_ID40046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH403_ID50046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH404_ID90046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH414_ID100046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH420_ID80046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH435_ID150046dd_lat_long_elev_csv.csv']
+        catchfilesin=['BH27_merged_500m.csv','BH389_merged_500m.csv','BH398_merged_500m.csv','BH402_merged_500m.csv','BH403_merged_500m.csv','BH404_merged_500m.csv','BH414_merged_500m.csv','BH420_merged_500m.csv','BH435_merged_500m.csv']
 elif region=='CW':
     if pecuberes=='1km':
         infile='DWCW1_1km/VTK/Ages001.vtk'
@@ -68,9 +68,9 @@ elif region=='CE':
     zthick=50.0
     catchments=['BH354','BH364','BH365','BH369','BH370','BH382']
     if resolution=='250m':
-        catchfilesin=['BHU_srtmv41_basin_BH354_ID30023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH364_ID10023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH365_ID20023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH369_ID60023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH370_ID70023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH382_ID140023dd_lat_long_elev_csv.csv']
+        catchfilesin=['BH354_merged_250m.csv','BH364_merged_250m.csv','BH365_merged_250m.csv','BH369_merged_250m.csv','BH370_merged_250m.csv','BH382_merged_250m.csv']
     elif resolution=='500m':
-        catchfilesin=['BHU_srtmv41_basin_BH354_ID30046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH364_ID10046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH365_ID20046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH369_ID60046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH370_ID70046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH382_ID140046dd_lat_long_elev_csv.csv']
+        catchfilesin=['BH354_merged_500m.csv','BH364_merged_500m.csv','BH365_merged_500m.csv','BH369_merged_500m.csv','BH370_merged_500m.csv','BH382_merged_500m.csv']
 elif region=='E':
     if pecuberes=='1km':
         infile='DWE01_1km/VTK/Ages002.vtk'
@@ -85,11 +85,49 @@ elif region=='E':
     dx=0.0023
     dy=0.0023
     zthick=50.0
-    catchments=['BH381','BH2']
+    catchments=['BH381','EasternBhutan']
     if resolution=='250m':
-        catchfilesin=['BHU_srtmv41_basin_BH381_ID130023dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH2_ID190023dd_lat_long_elev_csv.csv']
+        catchfilesin=['BH381_merged_250m.csv','EasternBhutan_merged_250m.csv']
     elif resolution=='500m':
-        catchfilesin=['BHU_srtmv41_basin_BH381_ID130046dd_lat_long_elev_csv.csv','BHU_srtmv41_basin_BH2_ID190046dd_lat_long_elev_csv.csv']
+        catchfilesin=['BH381_merged_500m.csv','EasternBhutan_merged_500m.csv']
+elif region=='MANAS':
+    if pecuberes=='1km':
+        infile='MAN14_1km/VTK/Ages001.vtk'
+        nskip=1.0
+    else:
+        print('Invalid Pecube resolution ('+pecuberes+'). Exiting...')
+        sys.exit(1)
+    xlon=90.0
+    xlat=26.5
+    nx0=250.0
+    ny0=250.0
+    dx=0.01
+    dy=0.01
+    zthick=50.0
+    catchments=['MAN14']
+    if resolution=='250m':
+        catchfilesin=['Manas_merged_250m.csv']
+    elif resolution=='500m':
+        catchfilesin=['Manas_merged_500m.csv']
+elif region=='TORSA':
+    if pecuberes=='1km':
+        infile='SK075_1km/VTK/Ages001.vtk'
+        nskip=2.0
+    elif pecuberes=='500m':
+        infile='DWE01_500m/VTK/Ages001.vtk'
+        nskip=1.0
+    xlon=88.5
+    xlat=26.5
+    nx0=300.0
+    ny0=400.0
+    dx=0.005
+    dy=0.005
+    zthick=50.0
+    catchments=['SK075']
+    if resolution=='250m':
+        catchfilesin=['Torsa_merged_250m.csv']
+    elif resolution=='500m':
+        catchfilesin=['Torsa_merged_500m.csv']
 else:
     print('Invalid region ('+region+'). Exiting...')
     sys.exit(1)
@@ -322,7 +360,7 @@ for i in range(numpts):
     if nxcnt == int(nx):
          nxcnt=0
          nycnt+=1
-    
+
 reader.close()
 print('done.')
 
@@ -362,7 +400,7 @@ for i in range(len(catchments)):
     writer = open(catchfileout, 'w')
     data=reader.readlines()
     numlines=int(len(data))
-    
+
     # Make arrays
     if makeplot==True:
         catchlatplot=np.zeros(numlines-1)
@@ -380,6 +418,10 @@ for i in range(len(catchments)):
 #         catchHArplot=np.zeros(numlines-1)
 #         catchmeanFTLplot=np.zeros(numlines-1)
 #         catchramanplot=np.zeros(numlines-1)
+#         catchGeolIDplot=np.zeros(numlines-1)
+#         catchGlacIDplot=np.zeros(numlines-1)
+#         catchMorIDplot=np.zeros(numlines-1)
+#         catchRGIDplot=np.zeros(numlines-1)
         catchKsnplot=np.zeros(numlines-1)
 #         catchKsn_t045plot=np.zeros(numlines-1)
 #         catchKsn_t2plot=np.zeros(numlines-1)
@@ -397,7 +439,7 @@ for i in range(len(catchments)):
     if writenumpts==True:
         writer.write(str(numlines-1)+'\n')
     if writecsvheader==True:
-        writer.write('lat,lon,elev,Pecube elev,edot,AHe,ZHe,AFT,ZFT,KAr,BAr,MAr,HAr,Mean FTL,Raman,Ksn,Ksn_t045,Ksn_t2,Ksn_t3,Ksn_t2m,Ksn_t3m,Ksn_t2t4,Ksn_t3t4,Ksn_t2mt4,Ksn_t3mt4,ssp,ssp_t2b31,ssp_t3b42\n')
+        writer.write('lat,lon,elev,Pecube elev,edot,AHe,ZHe,AFT,ZFT,KAr,BAr,MAr,HAr,Mean FTL,Raman,GeolID,GlacID,MorID,RGID,Ksn,Ksn_t045,Ksn_t2,Ksn_t3,Ksn_t2m,Ksn_t3m,Ksn_t2t4,Ksn_t3t4,Ksn_t2mt4,Ksn_t3mt4,ssp,ssp_t2b31,ssp_t3b42\n')
     for j in range(numlines-1):
 #    for j in range(100):
         datalist=data[j+1].split(',')
@@ -411,22 +453,26 @@ for i in range(len(catchments)):
             catchlonplot[j]=catchlonf
         catchelev=datalist[2]
         #catchelevplot[j]=catchelev
-        #catchtopometrics[i]=datalist[3]+','+datalist[4]+','+datalist[5]+','+datalist[6]+','+datalist[7]+','+datalist[8]+','+datalist[9]+','+datalist[10]+','+datalist[11]+','+datalist[12]+','+datalist[13]+','+datalist[14]+','+datalist[15]         
-        catchKsn=datalist[3]
+        #catchtopometrics[i]=datalist[3]+','+datalist[4]+','+datalist[5]+','+datalist[6]+','+datalist[7]+','+datalist[8]+','+datalist[9]+','+datalist[10]+','+datalist[11]+','+datalist[12]+','+datalist[13]+','+datalist[14]+','+datalist[15]
+        catchGeolID=datalist[3]
+        catchGlacID=datalist[4]
+        catchMorID=datalist[5]
+        catchRGID=datalist[6]
+        catchKsn=datalist[7]
         if makeplot==True:
             catchKsnplot[j]=catchKsn
-        catchKsn_t045=datalist[4]
-        catchKsn_t2=datalist[5]
-        catchKsn_t3=datalist[6]
-        catchKsn_t2m=datalist[7]
-        catchKsn_t3m=datalist[8]
-        catchKsn_t2t4=datalist[9]
-        catchKsn_t3t4=datalist[10]
-        catchKsn_t2mt4=datalist[11]
-        catchKsn_t3mt4=datalist[12]
-        catchssp=datalist[13]
-        catchssp_t2b31=datalist[14]
-        catchssp_t3b42=datalist[15]
+        catchKsn_t045=datalist[8]
+        catchKsn_t2=datalist[9]
+        catchKsn_t3=datalist[10]
+        catchKsn_t2m=datalist[11]
+        catchKsn_t3m=datalist[12]
+        catchKsn_t2t4=datalist[13]
+        catchKsn_t3t4=datalist[14]
+        catchKsn_t2mt4=datalist[15]
+        catchKsn_t3mt4=datalist[16]
+        catchssp=datalist[17]
+        catchssp_t2b31=datalist[18]
+        catchssp_t3b42=datalist[19]
         catchelevPecube=interpelevPecube(catchlatf,catchlonf)
         #catchelevPecubeplot[j]=catchelevPecube
         # Enforce minimum exhumation rate of 0.0
@@ -454,7 +500,18 @@ for i in range(len(catchments)):
 #         print(str(catchelevPecube[0]))
 #         print(str(catchelevPecube[0][0]))
 #         print('end')
-        writer.write(str(catchlatf)+','+str(catchlonf)+','+catchelev+','+str(catchelevPecube[0][0])+','+str(catchedot)+','+str(catchAHe[0][0])+','+str(catchZHe[0][0])+','+str(catchAFT[0][0])+','+str(catchZFT[0][0])+','+str(catchKAr[0][0])+','+str(catchBAr[0][0])+','+str(catchMAr[0][0])+','+str(catchHAr[0][0])+','+str(catchmeanFTL[0][0])+','+str(catchraman[0][0])+','+catchKsn+','+catchKsn_t045+','+catchKsn_t2+','+catchKsn_t3+','+catchKsn_t2m+','+catchKsn_t3m+','+catchKsn_t2t4+','+catchKsn_t3t4+','+catchKsn_t2mt4+','+catchKsn_t3mt4+','+catchssp+','+catchssp_t2b31+','+catchssp_t3b42)
+        writer.write(str(catchlatf)+','+str(catchlonf)+','+catchelev+','
+            +str(catchelevPecube[0][0])+','+str(catchedot)+','
+            +str(catchAHe[0][0])+','+str(catchZHe[0][0])+','
+            +str(catchAFT[0][0])+','+str(catchZFT[0][0])+','
+            +str(catchKAr[0][0])+','+str(catchBAr[0][0])+','
+            +str(catchMAr[0][0])+','+str(catchHAr[0][0])+','
+            +str(catchmeanFTL[0][0])+','+str(catchraman[0][0])+','
+            +catchGeolID+','+catchGlacID+','+catchMorID+','+catchRGID+','
+            +catchKsn+','+catchKsn_t045+','+catchKsn_t2+','+catchKsn_t3+','
+            +catchKsn_t2m+','+catchKsn_t3m+','+catchKsn_t2t4+','+catchKsn_t3t4
+            +','+catchKsn_t2mt4+','+catchKsn_t3mt4+','+catchssp+','
+            +catchssp_t2b31+','+catchssp_t3b42+'\n')
 
     reader.close()
     writer.close()
