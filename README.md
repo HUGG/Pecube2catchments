@@ -5,4 +5,6 @@ The catchment data includes the latitude, longitude and elevations of all points
 The Pecube output files are probed at all points where data is given in the catchment to determine predicted ages for all catchment points using a bilinear interpolation.
 The output is another `.csv` file with the merged Pecube and catchment data.
 
+**WARNING**: This code will does not work currently without being modified for your use case. A more general version of the code is under development.
+
 This software is licensed under the [MIT license](LICENSE).
