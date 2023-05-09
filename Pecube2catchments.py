@@ -1,43 +1,68 @@
-#!/usr/bin/python
-#
-# Pecube2catchments.py
+#!/usr/bin/env python3
+"""
+Merges topometric data and Pecube output into a single file.
+"""
 
 # Import libraries
-from __future__ import print_function
+#from __future__ import print_function
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
 from scipy.interpolate import interp2d,RectBivariateSpline
 
 #--- Pecube model details -----------------------------------------------------#
-region='TORSA'
+region='W'
 resolution='250m'
 pecuberes='1km'
-writenumpts=True
-writecsvheader=False
+writenumpts=False
+writecsvheader=True
 makeplot=False
 converttokm=False
 
 #--- Pecube model calculations ------------------------------------------------#
+# if region=='W':
+#     if pecuberes=='1km':
+#         infile='DWW01_1km/VTK/Ages001.vtk'
+#         nskip=4.0
+#     elif pecuberes=='500m':
+#         infile='DWW01_500m/VTK/Ages001.vtk'
+#         nskip=2.0
+#     xlon=89.0
+#     xlat=26.5
+#     nx0=652.0
+#     ny0=870.0
+#     dx=0.0023
+#     dy=0.0023
+#     zthick=50.0
+#     catchments=['BH27','BH389','BH398','BH402','BH403','BH404','BH414','BH420','BH435']
+#     if resolution=='250m':
+#         catchfilesin=['BH27_merged_250m.csv','BH389_merged_250m.csv','BH398_merged_250m.csv','BH402_merged_250m.csv','BH403_merged_250m.csv','BH404_merged_250m.csv','BH414_merged_250m.csv','BH420_merged_250m.csv','BH435_merged_250m.csv']
+#     elif resolution=='500m':
+#         catchfilesin=['BH27_merged_500m.csv','BH389_merged_500m.csv','BH398_merged_500m.csv','BH402_merged_500m.csv','BH403_merged_500m.csv','BH404_merged_500m.csv','BH414_merged_500m.csv','BH420_merged_500m.csv','BH435_merged_500m.csv']
 if region=='W':
     if pecuberes=='1km':
-        infile='DWW01_1km/VTK/Ages001.vtk'
-        nskip=4.0
-    elif pecuberes=='500m':
-        infile='DWW01_500m/VTK/Ages001.vtk'
-        nskip=2.0
-    xlon=89.0
-    xlat=26.5
-    nx0=652.0
-    ny0=870.0
-    dx=0.0023
-    dy=0.0023
+        #infile='WB009-1km/VTK/Ages001.vtk'
+        #pecube_model='_WB009-1km'
+        infile='WB012-1km/VTK/Ages001.vtk'
+        pecube_model='_WB012-1km'
+        #infile='WB014-1km/VTK/Ages001.vtk'
+        #pecube_model='_WB014-1km'
+        nskip=10.0
+        #nskip=4.0
+    xlon=88.25
+    xlat=26.25
+    nx0=3900
+    ny0=3300
+    dx=0.0008333
+    dy=0.0008333
+    #dx=0.0023
+    #dy=0.0023
     zthick=50.0
-    catchments=['BH27','BH389','BH398','BH402','BH403','BH404','BH414','BH420','BH435']
+    catchments=['BH27','BH389','BH398','BH402','BH403','BH404','BH414','BH435','SK075']
     if resolution=='250m':
-        catchfilesin=['BH27_merged_250m.csv','BH389_merged_250m.csv','BH398_merged_250m.csv','BH402_merged_250m.csv','BH403_merged_250m.csv','BH404_merged_250m.csv','BH414_merged_250m.csv','BH420_merged_250m.csv','BH435_merged_250m.csv']
+        catchfilesin=['BH27_merged_250m.csv','BH389_merged_250m.csv','BH398_merged_250m.csv','BH402_merged_250m.csv','BH403_merged_250m.csv','BH404_merged_250m.csv','BH414_merged_250m.csv','BH435_merged_250m.csv','Torsa_merged_250m.csv']
     elif resolution=='500m':
-        catchfilesin=['BH27_merged_500m.csv','BH389_merged_500m.csv','BH398_merged_500m.csv','BH402_merged_500m.csv','BH403_merged_500m.csv','BH404_merged_500m.csv','BH414_merged_500m.csv','BH420_merged_500m.csv','BH435_merged_500m.csv']
+        catchfilesin=['BH27_merged_500m.csv','BH389_merged_500m.csv','BH398_merged_500m.csv','BH402_merged_500m.csv','BH403_merged_500m.csv','BH404_merged_500m.csv','BH414_merged_500m.csv','BH435_merged_500m.csv','Torsa_merged_500m.csv']
 elif region=='CW':
     if pecuberes=='1km':
         infile='DWCW1_1km/VTK/Ages001.vtk'
@@ -135,6 +160,8 @@ else:
 # Calculate topography parameters
 nx=(nx0-1)/nskip+1
 ny=(ny0-1)/nskip+1
+nx = int(nx)
+ny = int(ny)
 xlon1=xlon
 xlat1=xlat
 xlon2=xlon+(nx-1)*dx*nskip
@@ -395,7 +422,7 @@ print('done.')
 for i in range(len(catchments)):
     print('Processing basin '+catchments[i]+'...',end='')
     sys.stdout.flush()
-    catchfileout=catchments[i]+'_Pecube_and_topometrics_'+resolution+'.csv'
+    catchfileout=catchments[i]+pecube_model+'_Pecube_and_topometrics_'+resolution+'.csv'
     reader = open('table_'+resolution+'/'+catchfilesin[i], 'r')
     writer = open(catchfileout, 'w')
     data=reader.readlines()
